@@ -1,4 +1,7 @@
-const AfterLoginLayout = ({ children }) => {
+import { ReactNode } from "react";
+
+const AfterLoginLayout = ({ children }: { children: ReactNode }) => {
+  
   return <div>AfterLogin{children}</div>;
 };
 
