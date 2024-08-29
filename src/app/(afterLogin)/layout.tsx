@@ -3,6 +3,8 @@ import style from "./layout.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import ZLogo from "../../../public/zlogo.png";
+import NavMenu from "./_component/NavMenu";
+import LogoutButton from "./_component/LogoutButton";
 
 const AfterLoginLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -15,6 +17,15 @@ const AfterLoginLayout = ({ children }: { children: ReactNode }) => {
                 <Image src={ZLogo} alt="로고" width={40} height={40} />
               </div>
             </Link>
+            <nav>
+              <ul>
+                <NavMenu />
+              </ul>
+              <Link href="/compose/tweet" className={style.postButton}>
+                개시하기
+              </Link>
+            </nav>
+            <LogoutButton />
           </div>
         </section>
       </header>
