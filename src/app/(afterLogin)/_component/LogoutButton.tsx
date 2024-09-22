@@ -5,10 +5,12 @@ import style from "./logoutButton.module.scss";
 export default function LogoutButton() {
   const me = {
     // 임시로 내 정보 있는것처럼
-    id: "zerohch0",
-    nickname: "제로초",
-    image: "/5Udwvqim.jpg",
+    id: "user1",
+    nickname: "유저",
+    image: "/user.png",
   };
+
+  // <a href="https://pixabay.com/ko//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6491185">Pixabay</a>로부터 입수된 <a href="https://pixabay.com/ko/users/tranquangkhai-718075/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6491185">Khai TranQuang</a>님의 이미지 입니다.
 
   const onLogout = () => {};
 

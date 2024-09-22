@@ -5,6 +5,7 @@ import style from "./post.module.scss";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"; // ES 2015
 import "dayjs/locale/ko";
+import ActionButtons from "./ActionButtons";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
@@ -16,7 +17,7 @@ export default function Post() {
       nickname: "Elon Musk",
       image: "/yRsRRjGO.jpg",
     },
-    content: "클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ",
+    content: "next14 적응하기",
     createdAt: new Date(),
     Images: [],
   };
@@ -48,7 +49,7 @@ export default function Post() {
               </div>
             )} */}
           </div>
-          {/* <ActionButtons post={post} /> */}
+          <ActionButtons />
         </div>
       </div>
     </article>
