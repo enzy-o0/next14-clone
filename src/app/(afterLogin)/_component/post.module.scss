@@ -72,6 +72,123 @@
 }
 
 .postImageSection {
+  display: inline-block;
+  margin-top: 12px;
+  width: 100%;
+  border-radius: 16px;
+
+  &.oneImage {
+    max-height: 510px;
+    background-repeat: no-repeat;
+
+    img {
+      width: 100%;
+      max-height: 510px;
+      border-radius: 16px;
+    }
+  }
+
+  &.twoImage {
+    height: 272px;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+
+    & > a {
+      flex: 1;
+      height: 272px;
+
+      &:first-child {
+        border-top-left-radius: 16px;
+        border-bottom-left-radius: 16px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+      }
+
+      img {
+        width: 100%;
+        max-height: 272px;
+      }
+    }
+  }
+
+  &.threeImage {
+    height: 272px;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+
+    & > a {
+      flex: 1;
+
+      &:first-child {
+        border-top-left-radius: 16px;
+        border-bottom-left-radius: 16px;
+      }
+
+      img {
+        width: 100%;
+        max-height: 272px;
+      }
+    }
+
+    & > div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      & > a {
+        flex: 1;
+
+        &:first-child {
+          border-top-right-radius: 16px;
+        }
+
+        &:last-child {
+          border-bottom-right-radius: 16px;
+        }
+
+        img {
+          width: 100%;
+          max-height: 136px;
+        }
+      }
+    }
+  }
+
+  &.fourImage {
+    height: 272px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    flex-direction: row;
+    gap: 2px;
+
+    img {
+      width: 100%;
+      max-height: 136px;
+    }
+
+    & > a:nth-child(1) {
+      border-top-left-radius: 16px;
+    }
+
+    & > a:nth-child(2) {
+      border-top-right-radius: 16px;
+    }
+
+    & > a:nth-child(3) {
+      border-bottom-left-radius: 16px;
+    }
+
+    & > a:nth-child(4) {
+      border-bottom-left-radius: 16px;
+    }
+  }
 }
 
 .postBody {
@@ -86,12 +203,6 @@
 .postMeta {
   display: flex;
   flex-direction: row;
-}
-
-.postImageSection img {
-  margin-top: 12px;
-  width: 100%;
-  border-radius: 16px;
 }
 
 .actionButtons {
