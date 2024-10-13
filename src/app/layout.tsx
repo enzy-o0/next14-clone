@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
+import { MSWComponent } from "./_component/MSWComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,10 @@ export default function RootLayout({ children }: Props) {
         <meta name="color-scheme" content="light only" />
         <meta name="supported-color-schemes" content="light" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <MSWComponent />
+        {children}
+      </body>
     </html>
   );
 }
