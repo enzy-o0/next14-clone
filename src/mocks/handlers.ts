@@ -31,9 +31,26 @@ export const handlers = [
   }),
   http.post("/api/logout", () => {
     console.log("로그아웃");
-    return new HttpResponse(null, {
+
+    // 실패시,
+    return HttpResponse.text(JSON.stringify("이미 해당 아이디가 존재합니다."), {
+      status: 403,
+    });
+
+    // return new HttpResponse.text(JSON.stringify("회원가입에 성공하였습니다."), {
+    //   headers: {
+    //     "Set-Cookie": "connect.sid=;HttpOnly;Path=/;Max-Age=0",
+    //   },
+    // });
+  }),
+  http.post("/api/users", async ({ request }) => {
+    console.log("회원가입");
+    // return HttpResponse.text(JSON.stringify('user_exists'), {
+    //   status: 403,
+    // })
+    return HttpResponse.text(JSON.stringify("ok"), {
       headers: {
-        "Set-Cookie": "connect.sid=;HttpOnly;Path=/;Max-Age=0",
+        "Set-Cookie": "connect.sid=msw-cookie;HttpOnly;Path=/",
       },
     });
   }),

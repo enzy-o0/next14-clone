@@ -4,15 +4,27 @@ import style from "./login.module.scss";
 import { useState } from "react";
 
 export default function Page() {
-  const [id, setId] = useState();
-  const [password, setPassword] = useState();
-  const [message, setMessage] = useState();
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isOpen, setIsOpen] = useState(true);
   const onSubmit = () => {};
-  const onClickClose = () => {};
+  const onClickClose = () => {
+    setIsOpen(false);
+  };
 
-  const onChangeId = () => {};
+  const onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("?");
+    setId(e.target.value);
+  };
 
-  const onChangePassword = () => {};
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div className={style.modalBackground}>
@@ -44,7 +56,7 @@ export default function Page() {
                 value={id}
                 onChange={onChangeId}
                 type="text"
-                placeholder=""
+                placeholder="아이디를 입력해주세요"
               />
             </div>
             <div className={style.inputDiv}>
@@ -57,7 +69,7 @@ export default function Page() {
                 value={password}
                 onChange={onChangePassword}
                 type="password"
-                placeholder=""
+                placeholder="비밀번호를 입력해주세요"
               />
             </div>
           </div>
