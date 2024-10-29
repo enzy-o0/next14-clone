@@ -2,6 +2,8 @@ Next 14 학습하기
 
 Next + React Query로 SNS 서비스 만들기
 
+[강의 정리 NOTE](https://www.notion.so/Next-React-Query-SNS-0e7455dc52304d2b85bb5dfd028eaba2?pvs=4)
+
 ## 시작하기
 
 ```bash
