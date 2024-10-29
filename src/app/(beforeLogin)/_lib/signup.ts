@@ -1,5 +1,6 @@
 "use server";
 
+import { signIn } from "@/auth";
 import { redirect } from "next/navigation";
 
 export default async (
@@ -56,6 +57,13 @@ export default async (
     }
     console.log(await response.json());
     shouldRedirect = true;
+
+    await signIn("credentials", {
+      userName: formData.get("id"),
+      password: formData.get("password"),
+      // 서버 컴포넌트
+      redirect: false,
+    });
   } catch (e) {
     console.error(e);
 

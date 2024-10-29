@@ -1,16 +1,47 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import style from "./login.module.scss";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
+
+// 클라이언트 컴포넌트 사용
+import { signIn } from "next-auth/react";
+
+// 서버 컴포넌트 사용
+// import { signIn } from "@/auth";
 
 export default function Page() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isOpen, setIsOpen] = useState(true);
-  const onSubmit = () => {};
+  const router = useRouter();
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    setMessage("");
+
+    try {
+      // naver, kakao도 있음
+      // 일반 아이디, 비밀번호는 credentials
+      await signIn("credentials", {
+        userName: id,
+        password,
+        // 서버 컴포넌트
+        redirect: false,
+      });
+
+      // 클라이언트는 router
+      router.replace("/home");
+    } catch (err) {
+      console.error(err);
+      setMessage("아이디와 비밀번호가 일치하지 않습니다");
+    }
+  };
+
   const onClickClose = () => {
     setIsOpen(false);
+    router.back;
   };
 
   const onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -4,7 +4,7 @@ import styles from "@/app/(beforeLogin)/_component/main.module.scss";
 type Props = {
   children: ReactNode;
   modal: ReactNode;
-  modal2: ReactNode;
+  modal2?: ReactNode;
 };
 
 export default function Layout({ children, modal, modal2 }: Props) {
@@ -15,7 +15,7 @@ export default function Layout({ children, modal, modal2 }: Props) {
       비포 로그인 레이아웃
       {children}
       {modal}
-      {modal2}
+      {/* {modal2} */}
     </div>
   );
 }
