@@ -9,26 +9,30 @@ import ActionButtons from "./ActionButtons";
 import PostArticle from "./PostArticle";
 import { faker } from "@faker-js/faker";
 import PostImages from "./PostImages";
+import { Post } from "@/model/Post";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
 type PostType = {
   noImage?: boolean;
+  post: Post;
 };
 
-export default function Post({ noImage }: PostType) {
-  const target = {
-    postId: 1,
-    User: {
-      id: "elonmusk",
-      nickname: "Elon Musk",
-      image: "/yRsRRjGO.jpg",
-    },
-    content: "next14 적응하기",
-    createdAt: new Date(),
-    Images: [] as any,
-  };
+export default function Post({ noImage, post }: PostType) {
+  // const target = {
+  //   postId: 1,
+  //   User: {
+  //     id: "elonmusk",
+  //     nickname: "Elon Musk",
+  //     image: "/yRsRRjGO.jpg",
+  //   },
+  //   content: "next14 적응하기",
+  //   createdAt: new Date(),
+  //   Images: [] as any,
+  // };
+
+  const target = post;
 
   if (Math.random() > 0.5 && !noImage) {
     target.Images.push(

@@ -9,28 +9,8 @@ import Tab from "./_component/Tab";
 import TabProvider from "./_component/TabProvider";
 import style from "./home.module.scss";
 import { revalidatePath, revalidateTag } from "next/cache";
-
-async function getPostRecommends() {
-  const res = await fetch("http://localhost:9090/api/postRecommend", {
-    next: {
-      tags: ["posts", "recommends"],
-    },
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  // 캐시 초기화
-  // 태그
-  // revalidateTag("recommends")
-
-  // 페이지 전체 새로고침
-  // revalidatePath("/home")
-
-  return res.json();
-}
+import PostRecommends from "./_component/PostRecommends";
+import { getPostRecommends } from "./_lib/getPostRecommends";
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -49,8 +29,7 @@ export default async function Home() {
         <TabProvider>
           <Tab />
           <PostForm />
-          <Post />
-          <Post /> <Post /> <Post /> <Post /> <Post /> <Post />
+          <PostRecommends />
         </TabProvider>
       </HydrationBoundary>
     </main>
