@@ -1,17 +1,44 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import style from "./rightSearchZone.module.scss";
 import SearchForm from "./SearchForm";
 
 export default function RightSearchZone() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const router = useRouter();
+
+  const handleChangeFollow = () => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("pf", "on");
+
+    router.replace(`/search?${newSearchParams.toString()}`);
+
+    // let url = `/search?q=${searchParams.get("q")}&pf=on`;
+    // if (searchParams.has("f")) {
+    //   url += `&f=${searchParams.get("f")}`;
+    // }
+    // router.replace(url);
+  };
+  const handleChangeAll = () => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete("pf");
+
+    router.replace(`/search?${newSearchParams.toString()}`);
+
+    // let url = `/search?q=${searchParams.get("q")}`;
+
+    // if (searchParams.has("f")) {
+    //   url += `&f=${searchParams.get("f")}`;
+    // }
+
+    // router.replace(url);
+  };
 
   if (pathname === "/explore") return null;
   if (pathname === "/search") {
-    const onChangeFollow = () => {};
-    const onChangeAll = () => {};
-
     return (
       <div>
         <h5 className={style.filterTitle}>검색 필터</h5>
@@ -24,7 +51,7 @@ export default function RightSearchZone() {
                 type="radio"
                 name="pf"
                 defaultChecked
-                onChange={onChangeAll}
+                onChange={handleChangeAll}
               />
             </div>
             <div className={style.radio}>
@@ -33,7 +60,7 @@ export default function RightSearchZone() {
                 type="radio"
                 name="pf"
                 value="on"
-                onChange={onChangeFollow}
+                onChange={handleChangeFollow}
               />
             </div>
           </div>

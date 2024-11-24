@@ -3,14 +3,17 @@
 import style from "./navMenu.module.scss";
 import { useSelectedLayoutSegment } from "next/navigation";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function NavMenu() {
   const segment = useSelectedLayoutSegment();
   console.log(segment);
-  const me = {
-    // 임시로 내 정보 있는것처럼
-    id: "user",
-  };
+  // const me = {
+  //   // 임시로 내 정보 있는것처럼
+  //   id: "user",
+  // };
+
+  const { data: me } = useSession();
 
   const HomeMenu = () =>
     segment === "home" ? (
@@ -106,7 +109,7 @@ export default function NavMenu() {
     );
 
   const MeMenu = () =>
-    segment === me.id ? (
+    segment === me?.user?.email ? (
       <>
         <svg
           width={26}
@@ -160,9 +163,9 @@ export default function NavMenu() {
           </Link>
         </li>
       ))}
-      {me?.id && (
+      {me?.user?.email && (
         <li>
-          <Link href={`/${me?.id}`}>
+          <Link href={`/${me?.user?.email}`}>
             <div className={style.navPill}>
               <MeMenu />
             </div>

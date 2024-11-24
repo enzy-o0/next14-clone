@@ -1,25 +1,32 @@
 "use client";
 import { useRef, useState } from "react";
 import style from "./modal.module.scss";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function TweetModal() {
+  const router = useRouter();
   const [content, setContent] = useState();
   const imageRef = useRef<HTMLInputElement>(null);
 
-  const onSubmit = () => {};
-  const onClickClose = () => {};
-  const onClickButton = () => {};
-  const onChangeContent = () => {};
-
-  const me = {
-    id: "유저",
-    image: "/user.png",
+  const handleSubmit = () => {};
+  const handlelickClose = () => {
+    router.back();
   };
+  const handleClickButton = () => {};
+  const handleChangeContent = () => {};
+
+  // const me = {
+  //   id: "유저",
+  //   image: "/user.png",
+  // };
+
+  const { data: me } = useSession();
 
   return (
     <div className={style.modalBackground}>
       <div className={style.modal}>
-        <button className={style.closeButton} onClick={onClickClose}>
+        <button className={style.closeButton} onClick={handleClickButton}>
           <svg
             width={24}
             viewBox="0 0 24 24"
@@ -31,11 +38,14 @@ export default function TweetModal() {
             </g>
           </svg>
         </button>
-        <form className={style.modalForm} onSubmit={onSubmit}>
+        <form className={style.modalForm} onSubmit={handleSubmit}>
           <div className={style.modalBody}>
             <div className={style.postUserSection}>
               <div className={style.postUserImage}>
-                <img src={me.image} alt={me.id} />
+                <img
+                  src={me?.user?.image as string}
+                  alt={me?.user?.email as string}
+                />
               </div>
             </div>
             <div className={style.inputDiv}>
@@ -43,7 +53,7 @@ export default function TweetModal() {
                 className={style.input}
                 placeholder="무슨 일이 일어나고 있나요?"
                 value={content}
-                onChange={onChangeContent}
+                onChange={handleChangeContent}
               />
             </div>
           </div>
@@ -61,7 +71,7 @@ export default function TweetModal() {
                 <button
                   className={style.uploadButton}
                   type="button"
-                  onClick={onClickButton}
+                  onClick={handleClickButton}
                 >
                   <svg width={24} viewBox="0 0 24 24" aria-hidden="true">
                     <g>

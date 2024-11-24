@@ -11,11 +11,25 @@ export default function Tab() {
 
   const onClickHot = () => {
     setCurrent("hot");
-    router.replace(`/search?q=${searchParams.get("q")}`);
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.delete("f");
+
+    // let url = `/search?q=${searchParams.get("q")}`;
+
+    // if (searchParams.has('pf')) {
+    //   url += `&pf=${searchParams.get("pf")}`;
+    // }
+    // router.replace(url);
   };
   const onClickNew = () => {
     setCurrent("new");
-    router.replace(`/search?${searchParams.toString()}&f=live`);
+
+    // let url = `/search?q=${searchParams.get("q")}&f=live`;
+    // router.replace(url);
+
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("f", "live");
   };
 
   return (

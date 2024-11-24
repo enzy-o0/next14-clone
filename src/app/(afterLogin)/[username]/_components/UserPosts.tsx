@@ -10,7 +10,7 @@ type Props = {
 };
 export default function UserPosts({ username }: Props) {
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData(["users", username]);
+  const user = queryClient.getQueryData(["user", username]);
   const { data } = useQuery<
     IPost[],
     Object,
@@ -22,6 +22,8 @@ export default function UserPosts({ username }: Props) {
     staleTime: 60 * 1000, // fresh -> stale
     gcTime: 300 * 1000, // 기본 5분
   });
+
+  console.log(user);
 
   if (!user) return;
   return data?.map((post) => <Post key={post.postId} post={post} />);
