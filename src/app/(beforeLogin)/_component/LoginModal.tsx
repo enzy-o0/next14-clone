@@ -24,15 +24,21 @@ export default function Page() {
     try {
       // naver, kakao도 있음
       // 일반 아이디, 비밀번호는 credentials
-      await signIn("credentials", {
+      const response = await signIn("credentials", {
         userName: id,
         password,
         // 서버 컴포넌트
         redirect: false,
+        // redirect: true,
+        // callbackUrl: "/home",
       });
 
-      // 클라이언트는 router
-      router.replace("/home");
+      if (!response?.ok) {
+        setMessage("아이디와 비밀번호가 일치하지 않습니다");
+      } else {
+        // 클라이언트는 router
+        router.replace("/home");
+      }
     } catch (err) {
       console.error(err);
       setMessage("아이디와 비밀번호가 일치하지 않습니다");
@@ -45,7 +51,6 @@ export default function Page() {
   };
 
   const onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("?");
     setId(e.target.value);
   };
 

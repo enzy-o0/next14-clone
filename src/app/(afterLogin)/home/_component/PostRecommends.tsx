@@ -4,12 +4,14 @@ import {
   InfiniteData,
   useInfiniteQuery,
   useQuery,
+  useSuspenseInfiniteQuery,
 } from "@tanstack/react-query";
 import Post from "../../_component/Post";
 import { Post as IPost } from "@/model/Post";
 import { getPostRecommends } from "../_lib/getPostRecommends";
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import Loading from "@/app/(afterLogin)/home/loading";
 
 export default function PostRecommends() {
   // const { data } = useQuery<IPost[]>({
@@ -19,7 +21,15 @@ export default function PostRecommends() {
   //   gcTime: 300 * 1000 // 기본 5분
   // });
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isLoading,
+    isPending,
+    isError,
+  } = useSuspenseInfiniteQuery<
     IPost[],
     Object,
     InfiniteData<IPost[]>,
@@ -29,7 +39,7 @@ export default function PostRecommends() {
     queryKey: ["posts", "recommends"],
     queryFn: getPostRecommends,
     staleTime: 60 * 1000, // fresh -> stale
-    gcTime: 300 * 1000, // 기본 5분,
+    gcTime: 300 * 1000, // 기본 5분
     initialPageParam: 0,
     // 5로 하면 중간에 삭제된 게시물이 있을 수 있음
     // 마지막 게시물의 아이디
@@ -48,6 +58,16 @@ export default function PostRecommends() {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, data, isFetching, hasNextPage, fetchNextPage]);
+
+
+  // useInfiniteQuery 일 떄,
+  // if (isPending) {
+  //   return <Loading />;
+  // }
+
+  if (isError) {
+    return "에러 났어요. 해결 해주세요.";
+  }
 
   return (
     <>

@@ -1,9 +1,10 @@
 export async function getTrends() {
-  const res = await fetch("http://localhost:9090/api/trends", {
+  const res = await fetch("http://localhost:9090/api/hashtags/trends", {
     // 서버 쪽 캐싱 - react query X
     next: {
       tags: ["trends"],
     },
+    credentials: "include",
     cache: "no-store",
   });
 

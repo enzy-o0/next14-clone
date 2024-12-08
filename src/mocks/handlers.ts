@@ -55,9 +55,11 @@ export const handlers = [
       },
     });
   }),
-  // 추천 게시물 
+  // 추천 게시물
   // queryString lastId or cursor 많이 사용
-  http.get("/api/postRecommend?cursor=0", ({ request }) => {
+  http.get("/api/postRecommend?cursor=0", async ({ request }) => {
+    await delay(3000);
+
     const url = new URL(request.url);
     const cursor = parseInt(url.searchParams.get("cursor") as string) || 0;
 
@@ -112,7 +114,8 @@ export const handlers = [
     ]);
   }),
   // 팔로잉 하는 게시물
-  http.get("/api/followingPosts", ({ request }) => {
+  http.get("/api/followingPosts", async ({ request }) => {
+    await delay(3000);
     const url = new URL(request.url);
     const cursor = parseInt(url.searchParams.get("cursor") as string) || 0;
 

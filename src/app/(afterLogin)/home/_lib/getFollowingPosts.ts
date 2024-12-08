@@ -1,5 +1,5 @@
 export async function getFollowingPosts() {
-  const res = await fetch("http://localhost:9090/api/followingPosts", {
+  const res = await fetch("http://localhost:9090/api/posts/followings", {
     // 서버 쪽 캐싱 - react query X
     next: {
       tags: ["posts", "followings"],

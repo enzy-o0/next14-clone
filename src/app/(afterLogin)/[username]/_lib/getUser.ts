@@ -6,7 +6,7 @@ export const getUser: QueryFunction<User, [_1: string, string]> = async ({
 }) => {
   const [_1, username] = queryKey;
 
-  const res = await fetch(`http://localhost:9090/api/users/${username}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${username}`, {
     // 서버 쪽 캐싱 - react query X
     next: {
       tags: ["user", username],

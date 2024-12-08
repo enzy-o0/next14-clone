@@ -2,9 +2,13 @@
 
 import { ChangeEventHandler, FormEventHandler, useRef, useState } from "react";
 import style from "./postForm.module.scss";
-import { useSession } from "next-auth/react";
+import { Session } from "@auth/core/types";
 
-export default function PostForm() {
+type Props = {
+  me: Session | null;
+};
+
+export default function PostForm({ me }: Props) {
   const imageRef = useRef<HTMLInputElement>(null);
   const [content, setContent] = useState("");
   // const me = {
@@ -12,7 +16,7 @@ export default function PostForm() {
   //   image: "/user.png",
   // };
 
-  const { data: me } = useSession();
+  // const { data: me } = useSession();
 
   const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     setContent(e.target.value);
@@ -30,7 +34,10 @@ export default function PostForm() {
     <form className={style.postForm} onSubmit={onSubmit}>
       <div className={style.postUserSection}>
         <div className={style.postUserImage}>
-          <img src={me?.user?.image as string} alt={me?.user?.email as string} />
+          <img
+            src={me?.user?.image as string}
+            alt={me?.user?.email as string}
+          />
         </div>
       </div>
       <div className={style.postInputSection}>

@@ -27,6 +27,7 @@ export default async (
     !formData.get("password") ||
     !(formData.get("password") as string)?.trim()
   ) {
+    console.log(formData.get("password"));
     return {
       message: "패스워드를 입력해주세요",
     };
@@ -58,6 +59,8 @@ export default async (
     console.log(await response.json());
     shouldRedirect = true;
 
+    console.log(formData);
+
     await signIn("credentials", {
       userName: formData.get("id"),
       password: formData.get("password"),
@@ -68,7 +71,7 @@ export default async (
     console.error(e);
 
     return {
-      message: "패스워드를 입력해주세요",
+      message: "회원가입에 실패하였습니다.",
     };
   }
 

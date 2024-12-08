@@ -1,5 +1,5 @@
 export async function getFollowRecommends() {
-  const res = await fetch("http://localhost:9090/api/followRecommends", {
+  const res = await fetch("http://localhost:9090/api/user/followRecommends", {
     // 서버 쪽 캐싱 - react query X
     next: {
       tags: ["users", "followRecommends"],

@@ -2,12 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { cookies } from "next/headers";
 import cookie from "cookie";
-import { NextResponse } from "next/server";
-// 카카오 사용
-// import kakaoProvider from "next-auth/providers/kakao";
 
-// npm i msw@2.1
-// 2.2는 한글과 관련된 버그가 있음. 현재는 2.4.9
 export const {
   handlers: { GET, POST },
   auth,
@@ -17,14 +12,26 @@ export const {
     signIn: "/i/flow/login",
     newUser: "/i/flow/signup",
   },
-  // callbacks: {
-  //   async authorized({ request, auth }) {
-  //     if (!auth) {
-  //       return NextResponse.redirect("http://localhost:3000/i/flow/login");
-  //     }
-  //     return true;
-  //   },
-  // },
+  events: {
+    signOut(data) {
+      console.log(
+        "auth.ts events signout",
+        "session" in data && data.session,
+        "token" in data && data.token
+      );
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    },
+    session(data) {
+      console.log(
+        "auth.ts events session",
+        "session" in data && data.session,
+        "token" in data && data.token
+      );
+    },
+  },
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
@@ -61,6 +68,5 @@ export const {
         };
       },
     }),
-    // kakaoProvider
   ],
 });
