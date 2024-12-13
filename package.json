@@ -15,13 +15,15 @@
     "@tanstack/react-query": "5",
     "@tanstack/react-query-devtools": "5",
     "classnames": "^2.5.1",
+    "cookie": "^0.6.0",
     "dayjs": "^1.11.13",
     "msw": "^2.4.9",
     "next": "14.2.5",
     "next-auth": "^5.0.0-beta.25",
     "react": "^18",
     "react-dom": "^18",
-    "react-intersection-observer": "^9.13.1"
+    "react-intersection-observer": "^9.13.1",
+    "react-textarea-autosize": "^8.5.6"
   },
   "devDependencies": {
     "@mswjs/http-middleware": "^0.10.1",

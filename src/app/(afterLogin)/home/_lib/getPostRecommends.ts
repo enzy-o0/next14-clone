@@ -7,6 +7,7 @@ export async function getPostRecommends({ pageParam }: Props) {
       next: {
         tags: ["posts", "recommends"],
       },
+      credentials: 'include',
       cache: "no-store",
     }
   );

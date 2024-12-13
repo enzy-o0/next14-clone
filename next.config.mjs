@@ -13,7 +13,7 @@ const nextConfig = {
     return [
       {
         source: "/upload/:slug",
-        destination: "http://localhost:9090/upload/:slug",
+        destination: `${process.env.NEXT_PUBLIC_BASE_URL}/upload/:slug`,
       },
     ];
   },

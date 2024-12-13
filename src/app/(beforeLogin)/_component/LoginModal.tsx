@@ -33,8 +33,10 @@ export default function Page() {
         // callbackUrl: "/home",
       });
 
-      if (!response?.ok) {
-        setMessage("아이디와 비밀번호가 일치하지 않습니다");
+      if (response?.code === "no_user") {
+        setMessage("가입하지 않은 유저입니다.");
+      } else if (response?.code === "wrong_password") {
+        setMessage("비밀번호가 틀렸습니다");
       } else {
         // 클라이언트는 router
         router.replace("/home");

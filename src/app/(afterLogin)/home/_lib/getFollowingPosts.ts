@@ -4,6 +4,7 @@ export async function getFollowingPosts() {
     next: {
       tags: ["posts", "followings"],
     },
+    credentials: 'include',
     cache: "no-store",
   });
 

@@ -156,8 +156,8 @@ export default function NavMenu() {
 
   return (
     <>
-      {menus.map((menu) => (
-        <li>
+      {menus.map((menu, idx) => (
+        <li key={idx}>
           <Link href={menu.href}>
             <div className={style.navPill}>{menu.comp}</div>
           </Link>
