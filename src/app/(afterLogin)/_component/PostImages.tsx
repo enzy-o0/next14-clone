@@ -6,7 +6,7 @@ type PostImagesPropsType = {
   post: {
     postId: number;
     User: {
-      id: number;
+      id: string;
       nickname: string;
       image: string;
     };

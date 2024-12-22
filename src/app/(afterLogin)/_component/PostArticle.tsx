@@ -9,7 +9,7 @@ type PostArticleType = {
   post: {
     postId: number;
     User: {
-      id: number;
+      id: string;
       nickname: string;
       image: string;
     };
@@ -25,8 +25,10 @@ export default function PostArticle({ children, post }: PostArticleType) {
     router.push(`${post.User.id}/status/${post.postId}`);
   };
 
+
+  // onClickCapture={handleClick}
   return (
-    <article onClickCapture={handleClick} className={style.post}>
+    <article onClick={handleClick} className={style.post}>
       {children}
     </article>
   );

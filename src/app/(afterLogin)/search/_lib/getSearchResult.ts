@@ -7,16 +7,16 @@ export const getSearchResult: QueryFunction<
 > = async ({ queryKey }) => {
   // queryKey 자동으로 내려옴
   const [_1, _2, searchParams] = queryKey;
+  const urlSearchParams = new URLSearchParams(searchParams);
   const res = await fetch(
-    `http://localhost:9090/api/search/${
-      searchParams.q
-    }?${searchParams.toString()}`,
+    `http://localhost:9090/api/posts?${urlSearchParams.toString}`,
     {
       // 서버 쪽 캐싱 - react query X
       next: {
         tags: ["posts", "search", searchParams.q],
       },
       cache: "no-store",
+      credentials: "include",
     }
   );
 

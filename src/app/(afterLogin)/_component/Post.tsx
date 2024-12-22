@@ -9,6 +9,7 @@ import ActionButtons from "./ActionButtons";
 import PostArticle from "./PostArticle";
 import PostImages from "./PostImages";
 import { Post } from "@/model/Post";
+import { MouseEventHandler } from "react";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
@@ -54,17 +55,25 @@ export default function Post({ noImage, post }: PostType) {
   //   );
   // }
 
+  const stopProPagation: MouseEventHandler<HTMLAnchorElement> = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <PostArticle post={post}>
       <div className={style.postWrapper}>
         <div className={style.postUserSection}>
-          <Link href={`/${target.User.id}`} className={style.postUserImage}>
+          <Link
+            href={`/${target.User.id}`}
+            className={style.postUserImage}
+            onClick={stopProPagation}
+          >
             <img src={target.User.image} alt={target.User.nickname} />
           </Link>
           <div className={style.postShade}></div>
         </div>
         <div className={style.postBody}>
-          <Link href={`/${target.User.id}`}>
+          <Link href={`/${target.User.id}`} onClick={stopProPagation}>
             <span className={style.postUserName}>{target.User.nickname}</span>
             &nbsp;
             <span className={style.postUserId}>@{target.User.id}</span>
@@ -79,7 +88,7 @@ export default function Post({ noImage, post }: PostType) {
               <PostImages post={target} />
             </div>
           )}
-          <ActionButtons white />
+          <ActionButtons white post={target} />
         </div>
       </div>
     </PostArticle>
