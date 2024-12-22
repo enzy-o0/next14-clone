@@ -20,6 +20,18 @@ type Props = {
   params: { username: string };
 };
 
+// 동적 메타데이터 생성
+export async function generateMetadata({ params }: Props) {
+  const { username } = await params;
+  const user = await getUserServer({
+    queryKey: ["user", username],
+  });
+  return {
+    title: `${user.nickname} (${user.id}) / Z`,
+    description: `${user.nickname} (${user.id}) 프로필`,
+  };
+}
+
 export default async function Profile({ params }: Props) {
   const { username } = params;
   const session = await auth();

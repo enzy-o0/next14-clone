@@ -15,7 +15,7 @@ export const getUserServer: QueryFunction<User, [_1: string, string]> = async ({
         tags: ["user", username],
       },
       credentials: "include",
-      headers: { Cookie: cookies.toString() },
+      headers: { Cookie: (await cookies()).toString() },
       cache: "no-store",
     }
   );
