@@ -293,6 +293,35 @@ export default function ActionButtons({ white, post }: Props) {
     },
   });
 
+  const repost = useMutation({
+    mutationFn: () => {
+      return fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/reposts`,
+        {
+          method: "post",
+          credentials: "include",
+        }
+      );
+    },
+    async onSuccess(response) {
+      const data = await response.json();
+    },
+  });
+  const deleteRepost = useMutation({
+    mutationFn: () => {
+      return fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/reposts`,
+        {
+          method: "delete",
+          credentials: "include",
+        }
+      );
+    },
+    async onSuccess(response) {
+      const data = await response.json();
+    },
+  });
+
   const onClickComment: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     const formData = new FormData();
@@ -310,16 +339,9 @@ export default function ActionButtons({ white, post }: Props) {
     e.stopPropagation();
 
     if (!reposted) {
-      const formData = new FormData();
-      formData.append("content", "재게시 테스트");
-      fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/reposts`,
-        {
-          method: "post",
-          credentials: "include",
-          body: formData,
-        }
-      );
+      repost.mutate();
+    } else {
+      deleteRepost.mutate();
     }
   };
   const onClickHeart: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -349,7 +371,7 @@ export default function ActionButtons({ white, post }: Props) {
             </g>
           </svg>
         </button>
-        <div className={style.count}>{post._count.Comments || ""}</div>
+        <div className={style.count}>{post._count?.Comments || ""}</div>
       </div>
       <div
         className={cx(
@@ -365,7 +387,7 @@ export default function ActionButtons({ white, post }: Props) {
             </g>
           </svg>
         </button>
-        <div className={style.count}>{post._count.Reposts || ""}</div>
+        <div className={style.count}>{post._count?.Reposts || ""}</div>
       </div>
       <div
         className={cx([

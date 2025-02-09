@@ -14,7 +14,12 @@ export default function CommentForm({ id }: Props) {
   const imageRef = useRef<HTMLInputElement>(null);
   const onClickButton = () => {};
   const onSubmit = () => {};
-  const onChange = () => {};
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    console.log(value);
+
+    setContent(value);
+  };
   // const me = {
   //   id: "유저",
   //   image: "/user.png",
