@@ -91,7 +91,7 @@ export default function ActionButtons({ white, post }: Props) {
                 ),
                 _count: {
                   ...value._count,
-                  Hearts: value._count.Hearts - 1,
+                  Hearts: value._count.Hearts + 1,
                 },
               };
               queryClient.setQueryData(queryKey, shallow);
@@ -305,8 +305,64 @@ export default function ActionButtons({ white, post }: Props) {
     },
     async onSuccess(response) {
       const data = await response.json();
+      const queryCache = queryClient.getQueryCache();
+      const queryKeys = queryCache.getAll().map((cache) => cache.queryKey);
+
+      console.log(queryKeys);
+      queryKeys.forEach((queryKey) => {
+        if (queryKey[0] === "posts") {
+          const value: Post | InfiniteData<Post[]> | undefined =
+            queryClient.getQueryData(queryKey);
+
+          if (value && "pages" in value) {
+            const obj = value.pages.flat().find((v) => v.postId === postId);
+            if (obj) {
+              // 존재는 하는지
+              const pageIndex = value.pages.findIndex((page) =>
+                page.includes(obj)
+              );
+              const index = value.pages[pageIndex].findIndex(
+                (v) => v.postId === postId
+              );
+
+              const shallow = { ...value };
+              shallow.pages = { ...value.pages };
+              shallow.pages[pageIndex] = [...value.pages[pageIndex]];
+              shallow.pages[pageIndex][index] = {
+                ...shallow.pages[pageIndex][index],
+                Reposts: [
+                  ...shallow.pages[pageIndex][index].Reposts,
+                  { userId: session?.user?.email as string },
+                ],
+                _count: {
+                  ...shallow.pages[pageIndex][index]._count,
+                  Reposts: shallow.pages[pageIndex][index]._count.Reposts + 1,
+                },
+              };
+              shallow.pages[0].unshift(data);
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          } else if (value) {
+            // 싱글 포스트인 경우
+            if (value.postId === postId) {
+              let shallow = {
+                ...value,
+                Reposts: value.Reposts.filter(
+                  (v) => v.userId !== session?.user?.email
+                ),
+                _count: {
+                  ...value._count,
+                  Reposts: value._count.Reposts + 1,
+                },
+              };
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      });
     },
   });
+
   const deleteRepost = useMutation({
     mutationFn: () => {
       return fetch(
@@ -317,8 +373,71 @@ export default function ActionButtons({ white, post }: Props) {
         }
       );
     },
-    async onSuccess(response) {
-      const data = await response.json();
+    onSuccess() {
+      const queryCache = queryClient.getQueryCache();
+      const queryKeys = queryCache.getAll().map((cache) => cache.queryKey);
+
+      console.log(queryKeys);
+      queryKeys.forEach((queryKey) => {
+        if (queryKey[0] === "posts") {
+          const value: Post | InfiniteData<Post[]> | undefined =
+            queryClient.getQueryData(queryKey);
+
+          if (value && "pages" in value) {
+            const obj = value.pages.flat().find((v) => v.postId === postId);
+            // 재게시 글인지, 작성자가 로그인한 유저 (나)인지
+            const repost = value.pages
+              .flat()
+              .find(
+                (v) =>
+                  v.Original?.postId === postId &&
+                  v.User.id === session?.user?.id
+              );
+            if (obj) {
+              // 존재는 하는지
+              const pageIndex = value.pages.findIndex((page) =>
+                page.includes(obj)
+              );
+              const index = value.pages[pageIndex].findIndex(
+                (v) => v.postId === postId
+              );
+
+              const shallow = { ...value };
+              shallow.pages = { ...value.pages };
+              shallow.pages[pageIndex] = [...value.pages[pageIndex]];
+              shallow.pages[pageIndex][index] = {
+                ...shallow.pages[pageIndex][index],
+                Reposts: shallow.pages[pageIndex][index].Reposts.filter(
+                  (v) => v.userId !== session?.user?.email
+                ),
+                _count: {
+                  ...shallow.pages[pageIndex][index]._count,
+                  Reposts: shallow.pages[pageIndex][index]._count.Reposts - 1,
+                },
+              };
+              shallow.pages = shallow.pages.map((page) => {
+                return page.filter((v) => v.postId !== repost?.postId);
+              });
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          } else if (value) {
+            // 싱글 포스트인 경우
+            if (value.postId === postId) {
+              let shallow = {
+                ...value,
+                Reposts: value.Reposts.filter(
+                  (v) => v.userId !== session?.user?.email
+                ),
+                _count: {
+                  ...value._count,
+                  Reposts: value._count.Reposts - 1,
+                },
+              };
+              queryClient.setQueryData(queryKey, shallow);
+            }
+          }
+        }
+      });
     },
   });
 
@@ -403,7 +522,7 @@ export default function ActionButtons({ white, post }: Props) {
             </g>
           </svg>
         </button>
-        <div className={style.count}>{post._count.Hearts || ""}</div>
+        <div className={style.count}>{post._count?.Hearts || ""}</div>
       </div>
     </div>
   );
